@@ -22,15 +22,15 @@ import { field, useEditableText, editorContext, withEditorContext } from 'react-
 const Example = () => {
 
 	const { toggleEditionMode } = useContext(editorContext)
-	const exampleText = useEditableText(initValue, updateExempleText)
+	const exampleText = useEditableText(initValue, handleUpdate)
 
-	function updateExempleText(data){
+	function handleUpdate(data){
 		// Here you can update your database (or anything you want)
-		console.log(data)
 	}
 
 	return (
 		<div>
+			<button onClick={toggleEditionMode}>Toggle edition mode</button>
 			<field.p {...exampleText}>
 		</div>
 	)
@@ -63,6 +63,32 @@ incoming elements :
 ``p`` has to be used with `useEditableText(defaultValue, updateCallback)`
 
 ``img`` have to be used with `useDroppableImage(defaultValue, updateCallback)`
+
+## Editable Background Image
+
+```jsx
+const Component = () => {
+
+	const background = useDroppableBackground(defaultImage, handleUpdate)
+
+	function handleUpdate(data){
+		// Here you can update your database (or anything you want)
+	}
+
+	return (
+		<div style={{
+			...background.style
+			}}
+			{...background.handlers}
+		>
+			Hello world
+		</div>
+	)
+}
+
+```
+
+Then, in edit mode, just drop your image. She'll be displayed and the handleUpdate callback will be called with the image (File object) in argument.
 
 ## License
 
