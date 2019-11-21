@@ -15,9 +15,10 @@ export const useDroppableImage = (
 	const [isOver, setIsOver] = useState(false)
 	const [src, setSrc] = useState<string | ArrayBuffer | null>(defaultValue)
 
-	const onDragOver = (e: any) => {
+	const onDragOver = (event: any) => {
 		if (!editionMode) return
-		e.preventDefault()
+		event.preventDefault()
+		event.stopPropagation()
 	}
 
 	const onDragEnter = () => {
@@ -28,22 +29,23 @@ export const useDroppableImage = (
 		setDragOver(false)
 	}
 
-	const onDrop = (e: any) => {
+	const onDrop = (event: any) => {
 		if (!editionMode) return
+		event.preventDefault()
+		event.stopPropagation()
 
 		setImageSize({
-			width: e.target.width,
-			height: e.target.height
+			width: event.target.width,
+			height: event.target.height
 		})
 
-		e.preventDefault()
 		setDragOver(false)
 		setIsLoading(true)
 
-		if (e.dataTransfer.items) {
-			updateCallback(e.dataTransfer.items[0])
+		if (event.dataTransfer.items) {
+			updateCallback(event.dataTransfer.items[0])
 
-			const file: File = e.dataTransfer.items[0].getAsFile()
+			const file: File = event.dataTransfer.items[0].getAsFile()
 			var reader: FileReader = new FileReader()
 			reader.addEventListener('load', () => {
 				setSrc(reader.result)
@@ -53,12 +55,12 @@ export const useDroppableImage = (
 		}
 	}
 
-	const onMouseEnter = (e: any) => {
+	const onMouseEnter = (event: any) => {
 		if (!editionMode) return
 		setIsOver(true)
 		setImageSize({
-			width: e.target.width,
-			height: e.target.height
+			width: event.target.width,
+			height: event.target.height
 		})
 	}
 

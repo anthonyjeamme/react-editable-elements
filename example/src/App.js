@@ -7,13 +7,21 @@ import {
 	useEditableText,
 	useDroppableImage,
 	editorContext,
-	withEditorContext
+	withEditorContext,
+	useDroppableBackground
 } from 'react-dynamic-field'
 
 import './index.css'
 
 const App = () => {
 	const { editionMode, toggleEditionMode } = useContext(editorContext)
+
+	const background = useDroppableBackground(
+		'https://media.giphy.com/media/l2SpPvzFidEyGwq2Y/giphy.gif',
+		data => {
+			console.log('update background', data)
+		}
+	)
 
 	const title = useInlineText('Mon titre', data => {
 		console.log(data)
@@ -33,8 +41,11 @@ const App = () => {
 	return (
 		<div
 			style={{
-				padding: 30
+				padding: 30,
+				...background.style,
+				backgroundSize: 'cover'
 			}}
+			{...background.handlers}
 		>
 			<button onClick={toggleEditionMode}>
 				{editionMode ? 'edit mode' : 'pas edit mode'}
@@ -43,7 +54,7 @@ const App = () => {
 
 			<field.h1 {...title} />
 			<field.p {...text} />
-			<field.img {...img} style={{ border: '5px solid red', maxHeight: 200 }} />
+			<field.img {...img} />
 		</div>
 	)
 }
