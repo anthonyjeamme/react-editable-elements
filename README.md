@@ -2,29 +2,67 @@
 
 > 
 
-[![NPM](https://img.shields.io/npm/v/field.svg)](https://www.npmjs.com/package/field) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/field.svg)](https://www.npmjs.com/package/react-editable-elements)
+
+Components and hooks to build a WYSIWYG editor. In edition mode (through ```editorContext```), each element can be edited.
 
 ## Install
 
 ```bash
-npm install --save field
+npm install --save react-editable-elements
 ```
 
 ## Usage
 
-```tsx
+```jsx
 import * as React from 'react'
 
-import MyComponent from 'field'
+import { field, useEditableText, editorContext, withEditorContext } from 'react-editable-elements'
 
-class Example extends React.Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
+const Example = () => {
+
+	const { toggleEditionMode } = useContext(editorContext)
+	const exampleText = useEditableText(initValue, updateExempleText)
+
+	function updateExempleText(data){
+		// Here you can update your database (or anything you want)
+		console.log(data)
+	}
+
+	return (
+		<div>
+			<field.p {...exampleText}>
+		</div>
+	)
 }
+
+export default withEditorContext(Example)
 ```
+
+## Docs
+
+Note : react-editable-elements is currently under development
+
+available elements :
+
+	field.h1
+	field.h2
+	field.h3
+	field.h4
+	field.h5
+	field.h6
+	field.p
+	field.img
+
+incoming elements :
+
+	field.table
+
+``hX`` have to be used with `useInlineText(defaultValue, updateCallback)`
+
+``p`` has to be used with `useEditableText(defaultValue, updateCallback)`
+
+``img`` have to be used with `useDroppableImage(defaultValue, updateCallback)`
 
 ## License
 
