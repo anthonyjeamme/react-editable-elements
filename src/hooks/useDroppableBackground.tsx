@@ -17,7 +17,6 @@ export const useDroppableBackground = (
 			updateCallback(event.dataTransfer.items[0])
 
 			const file: File = event.dataTransfer.items[0].getAsFile()
-			console.log(file.type)
 			var reader: FileReader = new FileReader()
 			reader.addEventListener('load', () => {
 				if (typeof reader.result === 'string') setBackground(reader.result)

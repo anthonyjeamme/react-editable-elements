@@ -1,43 +1,51 @@
-import { ImageComponent, ImageProps } from './components/ImageComponent'
-import { BlockComponent, BlockType } from './components/BlockComponent'
+import { EditableImage, EditableImageProps } from './components/EditableImage'
 import {
-	getHeadingComponents,
-	HeadingProps
-} from './components/HeadingComponent'
+	EditableRichText,
+	EditableRichTextProps
+} from './components/EditableRichText'
+import {
+	EditableInlineText,
+	EditableInlineTextProps
+} from './components/EditableInlineText'
+import { EditableTable, EditableTableProps } from './components/EditableTable'
 
 interface FieldTypes {
-	h1: (props: HeadingProps) => React.DOMElement<{}, Element>
-	h2: (props: HeadingProps) => React.DOMElement<{}, Element>
-	h3: (props: HeadingProps) => React.DOMElement<{}, Element>
-	h4: (props: HeadingProps) => React.DOMElement<{}, Element>
-	h5: (props: HeadingProps) => React.DOMElement<{}, Element>
-	h6: (props: HeadingProps) => React.DOMElement<{}, Element>
-	p: (props: BlockType) => React.DOMElement<{}, Element>
-	img: (props: ImageProps) => React.DOMElement<{}, Element>
+	h1: (props: EditableInlineTextProps) => JSX.Element
+	h2: (props: EditableInlineTextProps) => JSX.Element
+	h3: (props: EditableInlineTextProps) => JSX.Element
+	h4: (props: EditableInlineTextProps) => JSX.Element
+	h5: (props: EditableInlineTextProps) => JSX.Element
+	h6: (props: EditableInlineTextProps) => JSX.Element
+	p: (props: EditableRichTextProps) => JSX.Element
+	img: (props: EditableImageProps) => JSX.Element
+	table: (props: EditableTableProps) => JSX.Element
 }
 
-// Préconfigured tags
+// Preconfigured tags
 export const field: FieldTypes = {
-	p: BlockComponent('p'),
-	h1: getHeadingComponents(1),
-	h2: getHeadingComponents(2),
-	h3: getHeadingComponents(3),
-	h4: getHeadingComponents(4),
-	h5: getHeadingComponents(5),
-	h6: getHeadingComponents(6),
-	img: ImageComponent
+	p: EditableRichText('p'),
+	h1: EditableInlineText('h1'),
+	h2: EditableInlineText('h2'),
+	h3: EditableInlineText('h3'),
+	h4: EditableInlineText('h4'),
+	h5: EditableInlineText('h5'),
+	h6: EditableInlineText('h6'),
+	img: EditableImage,
+	table: EditableTable
 }
 
 // Components export
-export * from './components/ImageComponent'
-export * from './components/BlockComponent'
-export * from './components/HeadingComponent'
+export * from './components/EditableImage'
+export * from './components/EditableRichText'
+export * from './components/EditableInlineText'
 
 // Hooks export
-export * from './hooks/useInlineText'
-export * from './hooks/useEditableText'
+export * from './hooks/useEditableRichText'
+export * from './hooks/useEditableInlineText'
+export * from './hooks/useEditableTable'
 export * from './hooks/useDroppableImage'
 export * from './hooks/useDroppableBackground'
+export * from './hooks/useFieldGroup'
 
 // Context helper
 export * from './context/editorContext'

@@ -1,6 +1,6 @@
 {
 	"name": "react-editable-elements",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "anthonyjeamme",
 	"license": "MIT",
@@ -24,7 +24,8 @@
 	"dependencies": {
 		"@types/draft-js": "^0.10.37",
 		"draft-js": "^0.11.2",
-		"draft-js-export-html": "^1.4.1"
+		"draft-js-export-html": "^1.4.1",
+		"redraft": "^0.10.2"
 	},
 	"peerDependencies": {
 		"prop-types": "^15.5.4",
@@ -53,5 +54,7 @@
 		"rollup-plugin-url": "^1.4.0",
 		"typescript": "^2.8.3"
 	},
-	"files": ["dist"]
+	"files": [
+		"dist"
+	]
 }

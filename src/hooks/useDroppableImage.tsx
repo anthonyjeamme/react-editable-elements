@@ -1,10 +1,18 @@
 import { useState, useContext } from 'react'
 import { editorContext } from '../context/editorContext'
+import {
+	EditableImageValue,
+	EditableImageProps
+} from '../components/EditableImage'
 
 export const useDroppableImage = (
-	defaultValue: string = '',
+	defaultValue: EditableImageValue = { src: '' },
 	updateCallback: (data: any) => void
-) => {
+): [
+	EditableImageProps,
+	EditableImageValue,
+	(value: EditableImageValue) => void
+] => {
 	const { editionMode } = useContext(editorContext)
 	const [dragOver, setDragOver] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -13,7 +21,7 @@ export const useDroppableImage = (
 		height: number
 	} | null>(null)
 	const [isOver, setIsOver] = useState(false)
-	const [src, setSrc] = useState<string | ArrayBuffer | null>(defaultValue)
+	const [value, setValue] = useState<EditableImageValue>(defaultValue)
 
 	const onDragOver = (event: any) => {
 		if (!editionMode) return
@@ -27,6 +35,14 @@ export const useDroppableImage = (
 
 	const onDragLeave = () => {
 		setDragOver(false)
+
+		// TODO remove
+		console.log({
+			isLoading,
+			isOver,
+			dragOver,
+			imageSize
+		})
 	}
 
 	const onDrop = (event: any) => {
@@ -48,7 +64,10 @@ export const useDroppableImage = (
 			const file: File = event.dataTransfer.items[0].getAsFile()
 			var reader: FileReader = new FileReader()
 			reader.addEventListener('load', () => {
-				setSrc(reader.result)
+				setValue({
+					...value,
+					src: `${reader.result}`
+				})
 				// TODO update
 			})
 			reader.readAsDataURL(file)
@@ -64,59 +83,22 @@ export const useDroppableImage = (
 		})
 	}
 
-	// const onInputChange = (e: any) => {
-	// 	if (!editionMode) return
-	// 	setImageSize({
-	// 		width: e.target.width,
-	// 		height: e.target.height
-	// 	})
-
-	// 	setIsLoading(true)
-
-	// 	e.preventDefault()
-
-	// 	if (e.target.files) {
-	// 		var file = e.target.files[0]
-	// 		updateCallback(file)
-
-	// 		// updateImageToStorage(file).then(url => {
-	// 		// 	updateFunc(url).then(() => {
-	// 		// 		setIsLoading(false)
-	// 		// 	})
-	// 		// })
-	// 	}
-	// }
-
-	// const handleMouseLeaveOver = () => {
-	// 	setIsOver(false)
-	// }
-
-	return {
-		// inputHandlers: {
-		// 	onChange: onInputChange
-		// },
-		// mouseOverHandlers: {
-		// 	onMouseLeave: handleMouseLeaveOver
-		// },
-		// isLoading,
-		// imageSize,
-		// isOver,
-
-		misc: {
-			isLoading,
-			isOver,
-			dragOver,
-			imageSize
+	return [
+		{
+			__ree__: {
+				type: 'droppableImage',
+				value,
+				setValue,
+				handlers: {
+					onDrop,
+					onDragOver,
+					onDragEnter,
+					onDragLeave,
+					onMouseEnter
+				}
+			}
 		},
-
-		editionMode,
-		HTMLProps: {
-			src,
-			onDrop,
-			onDragOver,
-			onDragEnter,
-			onDragLeave,
-			onMouseEnter
-		}
-	}
+		value,
+		setValue
+	]
 }

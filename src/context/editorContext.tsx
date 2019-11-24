@@ -11,7 +11,7 @@ export const editorContext = createContext<EditorContextConsumer>({
 })
 
 export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
-	const [editionMode, setEditionMode] = useState<boolean>(false)
+	const [editionMode, setEditionMode] = useState<boolean>(true)
 	const { Provider } = editorContext
 
 	useEffect(() => {
@@ -47,5 +47,4 @@ export const withEditorContext = (Component: any) => {
 		<EditorProvider>
 			<Component />
 		</EditorProvider>
-	// return () =>
 }
